@@ -1,15 +1,22 @@
 {
     "name": "SociedadElectroChat",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "description": "Sistema de Chat para Sociedad Electro y Otras apps",
     "dependencies": {
-        "socket.io": "latest",
-        "express": "latest",
-        "jade": "latest",
-        "mongoose": "latest",
-        "ejs" : "latest",
-        "passport": "latest",
-        "passport-twitter": "latest"
-    },
-    "author": "Jose Luis Fonseca"
-}
+        "express": "3.2.5",
+        "jade": "0.28.2",
+        "connect": "2.7.1",
+        "connect-mongo": "latest",
+        "cookie": "0.0.5",
+        "datejs": "0.0.2",
+        "mongoose": "3.5.0",
+        "socket.io": "0.9.13",
+        "express-mongoose": "0.1.0 ",
+        "request": "2.12.0",
+        "ejs": "0.8.4",
+        "passport": "0.1.15",
+        "passport-facebook": "0.1.4",
+        "passport-twitter": "0.1.4"
+        },
+        "author": "Jose Luis Fonseca"
+    }
