@@ -1,0 +1,15 @@
+{
+    "name": "SociedadElectroChat",
+    "version": "0.0.0",
+    "description": "Sistema de Chat para Sociedad Electro y Otras apps",
+    "dependencies": {
+        "socket.io": "latest",
+        "express": "latest",
+        "jade": "latest",
+        "mongoose": "latest",
+        "ejs" : "latest",
+        "passport": "latest",
+        "passport-twitter": "latest"
+    },
+    "author": "Jose Luis Fonseca"
+}

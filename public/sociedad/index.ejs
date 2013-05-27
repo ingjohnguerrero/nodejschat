@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="sociedad/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//connect.facebook.net/en_US/all.js"></script>
+    <script src="sociedad/js/chat.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div id="fb-root"></div>
+    <!-- Login Page -->
+    <div class="container-fluid">
+        <div id="loading-div" class="row-fluid">
+            <div class="span4"></div>
+            <div class="span4" style="text-align:center">
+                <img src="sociedad/img/ajax-loader.gif">
+                Cargando...
+            </div>
+            <div class="span4"></div>
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <div id="messages"><div>
+                </div>
+                <div id="LoginFrame" style="display:none" class="row-fluid">
+                    <div class="span4"></div>
+                    <div class="span4">
+                        <div style="text-align: center">
+                            <h4>Bienvenido al Chat de Sociedad Electro</h4>
+                            <p>Por favor ingresa con alguna de estas redes sociales</p>
+                        </div>
+                        <div style="text-align: center;width: 50%;margin: auto;" id="social_login_container" class="social_login_container">
+                            <a href="javascript:void(0)" class="facebookIcon"><img src="sociedad/img/facebook.png"></a>
+                            <a href="/auth/twitter/" class="twitterIcon"><img src="sociedad/img/twitter.png"></a>
+                        </div>
+                    </div>
+                    <div class="span4"></div>
+                </div>
+                <div id="ChatFrame" class="row-fluid">
+                    <form id="message">
+                        <div class="span12">
+                            <input type="text" class="span12" name="text" id="user_text" required />
+                            <button type="submit" style="display:none" data-loading-text="Enviando...">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
