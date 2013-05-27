@@ -14,7 +14,7 @@ var passport = require('passport')
 passport.use(new FacebookStrategy({
     clientID: '116780783292',
     clientSecret: '6d0d64592936ac0279f4b84a0f776ea0',
-    callbackURL: "http://localhost:8080/auth/facebook/callback"
+    callbackURL: "http://sociedadchat.aws.af.cm/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
   	var User = {
@@ -29,7 +29,7 @@ passport.use(new FacebookStrategy({
 passport.use(new TwitterStrategy({
     consumerKey: '2bMaPEq1u9AxcJ3ewbTXQ',
     consumerSecret: 'R01QZfTngTv2144C6xDCzzbSp2HhvpF3lUivGdcKs',
-    callbackURL: "http://127.0.0.1:8080/auth/twitter/callback"
+    callbackURL: "http://sociedadchat.aws.af.cm/auth/twitter/callback"
   },
   function(token, tokenSecret, profile, done) {
     var User = {
