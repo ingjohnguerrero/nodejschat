@@ -1,7 +1,7 @@
 (function($,CHAT,undefined){   
 	window.onload = function() {
 		var messages = [];
-		var socket = io.connect('http://sociedadchat.aws.af.cm');
+		var socket = io.connect('http://localhost:8080');
 		/** Receive Messages **/
 		socket.on('message', function (data) {
 			if(data.message) {				
