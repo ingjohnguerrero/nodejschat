@@ -18,7 +18,7 @@
 			var message = '<div><img src="'+CHAT.user.data.picture+'" style="float:left;margin-right:10px;" /><strong>'+CHAT.user.data.name+":</strong>"+$('#user_text').val()+'<div style="clear:both"></div></div>';
 			socket.emit('send', { message: message });
 			$('#user_text').val('');
-			return e.preventDefault();
+			return false;
 		})
 	};
 })(window.jQuery,window.CHAT);
