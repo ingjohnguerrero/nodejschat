@@ -2,7 +2,7 @@
 	window.onload = function() {
 		$('.mesagges_container').css('height',$(window).height()-70);
 		var messages = [];
-		var socket = io.connect('http://localhost:8080');
+		var socket = io.connect('http://sociedadelectrochat.aws.af.cm');
 		/** obtener Mensajes de historial **/
 		socket.emit('getHistory');
 		/** Receive Messages **/

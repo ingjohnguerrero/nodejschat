@@ -1,6 +1,33 @@
 /** Setting session Store variable **/
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/chat' );
+/** use appfog services for mongo **/
+if(process.env.VCAP_SERVICES){
+    var env = JSON.parse(process.env.VCAP_SERVICES);
+    var mongo = env['mongodb-1.8'][0]['credentials'];
+}
+else{
+    var mongo = {
+    "hostname":"localhost",
+    "port":27017,
+    "username":"",
+    "password":"",
+    "name":"",
+    "db":"chat"
+    }
+}
+var generate_mongo_url = function(obj){
+    obj.hostname = (obj.hostname || 'localhost');
+    obj.port = (obj.port || 27017);
+    obj.db = (obj.db || 'chat');
+    if(obj.username && obj.password){
+        return "mongodb://" + obj.username + ":" + obj.password + "@" + obj.hostname + ":" + obj.port + "/" + obj.db;
+    }
+    else{
+        return "mongodb://" + obj.hostname + ":" + obj.port + "/" + obj.db;
+    }
+}
+var mongourl = generate_mongo_url(mongo);
+mongoose.connect(mongourl);
 require('./models/message');
 var express = require("express")
 , util = require('util')
@@ -12,9 +39,9 @@ var passport = require('passport')
 , TwitterStrategy = require('passport-twitter').Strategy;
 /** Passport Use facebook **/
 passport.use(new FacebookStrategy({
-  clientID: '116780783292',
-  clientSecret: '6d0d64592936ac0279f4b84a0f776ea0',
-  callbackURL: "http://localhost:8080/auth/facebook/callback"
+  clientID: '', // Here the customer key from facebook
+  clientSecret: '', // Here the customer secret from facebook
+  callbackURL: "http://sociedadelectrochat.aws.af.cm/auth/facebook/callback" // callbackURL
 },
 function(accessToken, refreshToken, profile, done) {
  var User = {
@@ -27,9 +54,9 @@ done(null, User);
 ));
 /** Passport use twitter **/
 passport.use(new TwitterStrategy({
-  consumerKey: '2bMaPEq1u9AxcJ3ewbTXQ',
-  consumerSecret: 'R01QZfTngTv2144C6xDCzzbSp2HhvpF3lUivGdcKs',
-  callbackURL: "http://localhost:8080/auth/twitter/callback"
+  consumerKey: '', // Here the customer key from twitter
+  consumerSecret: '', // Here the customer secret from twitter
+  callbackURL: "http://sociedadelectrochat.aws.af.cm/auth/twitter/callback" // callbackURL
 },
 function(token, tokenSecret, profile, done) {
   var User = {
@@ -41,7 +68,7 @@ function(token, tokenSecret, profile, done) {
 }
 ));
 var app = express();
-var port = 8080;
+var port = 80;
 /** express-mongoose **/
 require('express-mongoose');
 require('datejs/lib/date-es-ES');
@@ -70,6 +97,7 @@ passport.deserializeUser(function(User, done) {
 });
 /** Setting Socket.io var **/
 var io = require('socket.io').listen(app.listen(port));
+io.set('transports', ['xhr-polling']);
 /** ROUTES **/
 app.get("/", function(req, res){
 	res.render("index.ejs");
