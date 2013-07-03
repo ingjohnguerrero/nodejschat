@@ -1,0 +1,7 @@
+.sendbar{
+	margin-top: 5px;
+}
+.mesagges_container{
+	border: solid 1px #000;
+	overflow: auto;
+}

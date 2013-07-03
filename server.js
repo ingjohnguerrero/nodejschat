@@ -8,37 +8,37 @@ var express = require("express")
 
 /** passport for facebook & twitter **/
 var passport = require('passport')
-  , FacebookStrategy = require('passport-facebook').Strategy
-  , TwitterStrategy = require('passport-twitter').Strategy;
+, FacebookStrategy = require('passport-facebook').Strategy
+, TwitterStrategy = require('passport-twitter').Strategy;
 /** Passport Use facebook **/
 passport.use(new FacebookStrategy({
-    clientID: '116780783292',
-    clientSecret: '6d0d64592936ac0279f4b84a0f776ea0',
-    callbackURL: "http://localhost:8080/auth/facebook/callback"
-  },
-  function(accessToken, refreshToken, profile, done) {
-  	var User = {
-  		id: profile.id,
-  		user_name : profile.displayName,
-  		avatar: 'https://graph.facebook.com/'+profile.username+'/picture'
-  	}
-  	done(null, User);
-  }
+  clientID: '116780783292',
+  clientSecret: '6d0d64592936ac0279f4b84a0f776ea0',
+  callbackURL: "http://localhost:8080/auth/facebook/callback"
+},
+function(accessToken, refreshToken, profile, done) {
+ var User = {
+  id: profile.id,
+  user_name : profile.displayName,
+  avatar: 'https://graph.facebook.com/'+profile.username+'/picture'
+}
+done(null, User);
+}
 ));
 /** Passport use twitter **/
 passport.use(new TwitterStrategy({
-    consumerKey: '2bMaPEq1u9AxcJ3ewbTXQ',
-    consumerSecret: 'R01QZfTngTv2144C6xDCzzbSp2HhvpF3lUivGdcKs',
-    callbackURL: "http://localhost:8080/auth/twitter/callback"
-  },
-  function(token, tokenSecret, profile, done) {
-    var User = {
-  		id: profile.id,
-  		user_name : profile.username,
-  		avatar: profile._json.profile_image_url_https
-  	}
-  	done(null, User);
+  consumerKey: '2bMaPEq1u9AxcJ3ewbTXQ',
+  consumerSecret: 'R01QZfTngTv2144C6xDCzzbSp2HhvpF3lUivGdcKs',
+  callbackURL: "http://localhost:8080/auth/twitter/callback"
+},
+function(token, tokenSecret, profile, done) {
+  var User = {
+    id: profile.id,
+    user_name : profile.username,
+    avatar: profile._json.profile_image_url_https
   }
+  done(null, User);
+}
 ));
 var app = express();
 var port = 8080;
@@ -85,16 +85,26 @@ app.get('/logout', function(req, res){
 app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', { successRedirect: '/chat_room',
-                                      failureRedirect: '/' }));
+    failureRedirect: '/' }));
 /** Route for twitter passport **/
 app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', 
   passport.authenticate('twitter', { successRedirect: '/chat_room',
-                                      failureRedirect: '/' }));
+    failureRedirect: '/' }));
 
 /** On conection of a client it will emit a message **/
 io.sockets.on('connection', function (socket) {
-	socket.on('send', function (data) {
-		io.sockets.emit('message', data);
-	});
+  socket.on('getHistory',function(data){
+    Message.find({}).sort({_id:-1}).limit(200).execFind(function(err,mensaje){
+      io.sockets.emit('message', mensaje);
+    });
+  });
+  socket.on('send', function (data) {
+    var msj = new Message();
+    msj.content = data.message;
+    msj.save();
+    Message.find({}).sort({_id:-1}).limit(200).execFind(function(err,mensaje){
+      io.sockets.emit('message', mensaje);
+    });
+  });
 });
