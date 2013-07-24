@@ -39,9 +39,9 @@ var passport = require('passport')
 , TwitterStrategy = require('passport-twitter').Strategy;
 /** Passport Use facebook **/
 passport.use(new FacebookStrategy({
-  clientID: '', // Here the customer key from facebook
-  clientSecret: '', // Here the customer secret from facebook
-  callbackURL: "http://sociedadelectrochat.aws.af.cm/auth/facebook/callback" // callbackURL
+  clientID: '116780783292', // Here the customer key from facebook
+  clientSecret: '6d0d64592936ac0279f4b84a0f776ea0', // Here the customer secret from facebook
+  callbackURL: "http://localhost:8080/auth/facebook/callback" // callbackURL
 },
 function(accessToken, refreshToken, profile, done) {
  var User = {
@@ -54,9 +54,9 @@ done(null, User);
 ));
 /** Passport use twitter **/
 passport.use(new TwitterStrategy({
-  consumerKey: '', // Here the customer key from twitter
-  consumerSecret: '', // Here the customer secret from twitter
-  callbackURL: "http://sociedadelectrochat.aws.af.cm/auth/twitter/callback" // callbackURL
+  consumerKey: '2bMaPEq1u9AxcJ3ewbTXQ', // Here the customer key from twitter
+  consumerSecret: 'R01QZfTngTv2144C6xDCzzbSp2HhvpF3lUivGdcKs', // Here the customer secret from twitter
+  callbackURL: "http://localhost:8080/auth/twitter/callback" // callbackURL
 },
 function(token, tokenSecret, profile, done) {
   var User = {
@@ -68,7 +68,7 @@ function(token, tokenSecret, profile, done) {
 }
 ));
 var app = express();
-var port = 80;
+var port = 8080;
 /** express-mongoose **/
 require('express-mongoose');
 require('datejs/lib/date-es-ES');
@@ -97,7 +97,7 @@ passport.deserializeUser(function(User, done) {
 });
 /** Setting Socket.io var **/
 var io = require('socket.io').listen(app.listen(port));
-io.set('transports', ['xhr-polling']);
+//io.set('transports', ['xhr-polling']);
 /** ROUTES **/
 app.get("/", function(req, res){
 	res.render("index.ejs");
