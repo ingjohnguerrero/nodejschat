@@ -39,9 +39,9 @@ var passport = require('passport')
 , TwitterStrategy = require('passport-twitter').Strategy;
 /** Passport Use facebook **/
 passport.use(new FacebookStrategy({
-  clientID: '116780783292', // Here the customer key from facebook
-  clientSecret: '6d0d64592936ac0279f4b84a0f776ea0', // Here the customer secret from facebook
-  callbackURL: "http://localhost:8080/auth/facebook/callback" // callbackURL
+  clientID: '', // Here the customer key from facebook
+  clientSecret: '', // Here the customer secret from facebook
+  callbackURL: "http://sociedadelectrochat.aws.af.cm/auth/facebook/callback" // callbackURL
 },
 function(accessToken, refreshToken, profile, done) {
  var User = {
@@ -54,9 +54,9 @@ done(null, User);
 ));
 /** Passport use twitter **/
 passport.use(new TwitterStrategy({
-  consumerKey: '2bMaPEq1u9AxcJ3ewbTXQ', // Here the customer key from twitter
-  consumerSecret: 'R01QZfTngTv2144C6xDCzzbSp2HhvpF3lUivGdcKs', // Here the customer secret from twitter
-  callbackURL: "http://localhost:8080/auth/twitter/callback" // callbackURL
+  consumerKey: '', // Here the customer key from twitter
+  consumerSecret: '', // Here the customer secret from twitter
+  callbackURL: "http://sociedadelectrochat.aws.af.cm/auth/twitter/callback" // callbackURL
 },
 function(token, tokenSecret, profile, done) {
   var User = {
@@ -97,7 +97,7 @@ passport.deserializeUser(function(User, done) {
 });
 /** Setting Socket.io var **/
 var io = require('socket.io').listen(app.listen(port));
-//io.set('transports', ['xhr-polling']);
+io.set('transports', ['xhr-polling']);
 /** ROUTES **/
 app.get("/", function(req, res){
 	res.render("index.ejs");
@@ -120,12 +120,15 @@ app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { successRedirect: '/chat_room',
     failureRedirect: '/' }));
 
-/** On conection of a client it will emit a message **/
+/** On conection of a client it will emit the history **/
 io.sockets.on('connection', function (socket) {
   socket.on('getHistory',function(data){
     Message.find({}).sort({_id:-1}).limit(200).execFind(function(err,mensaje){
       io.sockets.emit('message', mensaje);
     });
+  });
+  socket.on('typing',function(data){
+      io.sockets.emit('typing', data);
   });
   socket.on('send', function (data) {
     var msj = new Message();

@@ -5,3 +5,8 @@
 	border: solid 1px #000;
 	overflow: auto;
 }
+.timeago{
+	float: right;
+	color: #ccc;
+	font-size: 11px;
+}

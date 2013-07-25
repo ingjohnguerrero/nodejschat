@@ -16,7 +16,8 @@
         "ejs": "0.8.4",
         "passport": "0.1.15",
         "passport-facebook": "0.1.4",
-        "passport-twitter": "0.1.5"
+        "passport-twitter": "0.1.5",
+        "moment": "2.1.0"
         },
         "author": "Jose Luis Fonseca"
     }

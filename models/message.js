@@ -1,6 +1,6 @@
 var mongoose = require('mongoose'),
     request = require('request'),
-    qs = require('querystring');
+    qs = require('querystring')
 /* Recoje datos del mensaje para un schema en mongoose
 Contenido, fecha, publicacion, ip */
 var messageSchema = new mongoose.Schema({
